@@ -6,7 +6,7 @@
                 v-bind:key="key"
                 v-bind:MonHoc="value"
                 v-if="value.trangthai"
-                v-on:suaMonHoc = "suaMonHoc"
+                v-on:xoaMonHoc = "xoaMonHoc"
             />
     
     </div>
@@ -31,9 +31,9 @@ export default {
         CompMonHoc
     },
     methods: {
-        suaMonHoc(data){
+        xoaMonHoc(data){
             console.log('đây là đã học',data.id);
-            this.$emit('AppsuaMonHoc',data);
+            this.$emit('AppXoaMonHoc',data);
         }
     }
 }
