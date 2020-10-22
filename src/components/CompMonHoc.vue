@@ -1,17 +1,18 @@
 <template>
-  <div class="mon-hoc" style="width:100%">
+<div class="row">
+  <div class="mon-hoc col" style="width:100%">
 	<link rel="stylesheet" type="text/css" href="public/css/bootstrap.css">
     <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
     <!-- chưa học -->
-    <li class="ui-state-default" v-if="!MonHoc.trangthai" v-on:click="handleChuaHoc">
+    <!-- <li class="ui-state-default" v-if="!MonHoc.trangthai" v-on:click="handleChuaHoc">
       <div class="checkbox">
         <label>
           <input type="checkbox" value="" v-on:click="handleChuaHoc"/>
           {{ MonHoc.monhoc }}
-          <!-- <a href="">{{ MonHoc.monhoc }}</a> -->
+    
         </label>
       </div>
-    </li>
+    </li> -->
 
     <!-- đã học -->
     <li class="ui-state-default" id="done-items li" v-if="MonHoc.trangthai" v-on:click="handleXoa">
@@ -32,9 +33,14 @@
             class="ChuaHoc">Chưa học
         </button> -->
   </div>
+  </div>
 </template>
 
 <script>
+
+import { mapActions } from 'vuex';
+import { mapGetters } from "vuex";
+
 export default {
   name: "comp-monhoc",
   slmon: 0,
@@ -47,22 +53,43 @@ export default {
       default: null
     }
   },
+  computed:{
+      ...mapGetters(["allMonHoc"])
+  },
   methods: {
-    handleXoa(data) {
-      var data = {
-        id: this.MonHoc.id
-      };
-      console.log("đã ấn");
-      this.$emit("xoaMonHoc", data);
-    },
-    handleChuaHoc(data) {
-      var data = {
-        id: this.MonHoc.id
-      };
-      console.log("đã ấn");
-      this.$emit("suaMonHoc", data);
+    ...mapActions(["deleteMonHoc"]),
+    handleXoa(data){
+      console.log("toan");
+      var indexMonHoc = -1;
+      this.allMonHoc.forEach((u, index) => {
+          if(u.id === this.MonHoc.id){
+            indexMonHoc = index;
+             console.log("đây là App(xoa)")
+          }
+      });
+      if(indexMonHoc != -1){
+        this.deleteMonHoc(indexMonHoc);
+        // this.ListMonHoc.splice(indexMonHoc, 1);
+      }
     }
-  }
+  },
+  
+  // methods: {
+  //   handleXoa(data) {
+  //     var data = {
+  //       id: this.MonHoc.id
+  //     };
+  //     console.log("đã ấn");
+  //     this.$emit("xoaMonHoc", data);
+  //   },
+  //   handleChuaHoc(data) {
+  //     var data = {
+  //       id: this.MonHoc.id
+  //     };
+  //     console.log("đã ấn");
+  //     this.$emit("suaMonHoc", data);
+  //   }
+  // }
 };
 </script>
 
