@@ -8,9 +8,10 @@
         <div class="col-md-6">
           <div class="todolist not-done">
             <h1>Todos</h1>
+            <!-- <input type="text" class="form-control add-todo" placeholder="Add todo" v-model="monhocmoi" id="MonHocMoi" @keyup.enter="addMonHocI"> -->
             <input type="text" class="form-control add-todo" placeholder="Add todo" v-model="monhocmoi" id="MonHocMoi" @keyup.enter="addMonHocI">
             {{ monhocmoi }}
-            <!-- <button id="checkAll" class="btn btn-success" v-on:click="allMonHoc">Mark all as done</button> -->
+            <button id="checkAll" class="btn btn-success" v-on:click="allMonHocI">Mark all as done</button>
             <!-- <button id="all" class="btn btn-success" v-on:click="DemMonHoc">{{ sl }}</button> -->
             <hr>
             <ul id="sortable" class="list-unstyled ui-sortable">
@@ -19,7 +20,7 @@
             
             </ul>
             <div class="todo-footer">
-              <!-- <strong><span class="count-todos">{{ sl }}</span></strong> Items Left -->
+              <strong><span class="count-todos">{{ this.slMonHoc }}</span></strong> Items Left
             </div>
           </div>
         </div>
@@ -44,17 +45,33 @@ import CompListChuaHoc from './components/CompList.vue';
 
 import { mapActions } from "vuex";
 import { v1 } from "uuid";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
     return {
+      // sl: 0,
       name: 'app',
       monhocmoi: "",
     }
   },
+  computed:{
+    ...mapGetters(["allMonHoc","slMonHoc"]),
+    value: {
+      get() {
+        return this.$store.getters.monhocmoi;
+      },
+      set() {
+        this.ThemMonHoc(this.monhocmoi);
+      }
+    }
+  },
+  created: function() {
+    this.demMonHoc();
+  }, 
   methods: {
-    ...mapActions(["addMonHoc"]),
-    addMonHocI(e) {
+    ...mapActions(["addMonHoc", "demMonHoc", "CompleteMonHoc"]),
+    addMonHocI() {
       if(this.monhocmoi != ""){
         const monhoc = {
           id: v1(),
@@ -63,8 +80,14 @@ export default {
         };
         console.log(monhoc);
         this.addMonHoc(monhoc);
+        this.demMonHoc();
         this.monhocmoi = "";
       }
+    },
+    allMonHocI(){
+      console.log("đã vào allMonHoc")
+      this.CompleteMonHoc();
+      this.demMonHoc();
     }
   },
   components: {

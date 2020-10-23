@@ -4,7 +4,7 @@
 	<link rel="stylesheet" type="text/css" href="public/css/bootstrap.css">
     <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
     <!-- chưa học -->
-    <!-- <li class="ui-state-default" v-if="!MonHoc.trangthai" v-on:click="handleChuaHoc">
+    <li class="ui-state-default" v-if="!MonHoc.trangthai" v-on:click="handleChuaHoc">
       <div class="checkbox">
         <label>
           <input type="checkbox" value="" v-on:click="handleChuaHoc"/>
@@ -12,7 +12,7 @@
     
         </label>
       </div>
-    </li> -->
+    </li>
 
     <!-- đã học -->
     <li class="ui-state-default" id="done-items li" v-if="MonHoc.trangthai" v-on:click="handleXoa">
@@ -54,12 +54,11 @@ export default {
     }
   },
   computed:{
-      ...mapGetters(["allMonHoc"])
+      ...mapGetters(["allMonHoc", "slMonHoc"])
   },
   methods: {
-    ...mapActions(["deleteMonHoc"]),
+    ...mapActions(["deleteMonHoc", "doiTrangThai", "demMonHoc"]),
     handleXoa(data){
-      console.log("toan");
       var indexMonHoc = -1;
       this.allMonHoc.forEach((u, index) => {
           if(u.id === this.MonHoc.id){
@@ -71,6 +70,19 @@ export default {
         this.deleteMonHoc(indexMonHoc);
         // this.ListMonHoc.splice(indexMonHoc, 1);
       }
+    },
+    handleChuaHoc(data){
+        var indexMonHoc = -1;
+        this.allMonHoc.forEach((u, index) => {
+          if(u.id === this.MonHoc.id){
+            indexMonHoc = index;
+            console.log(indexMonHoc);
+          }
+        });
+        if(indexMonHoc != -1){
+          this.doiTrangThai(indexMonHoc);
+          this.demMonHoc();
+        }
     }
   },
   

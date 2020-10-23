@@ -57,17 +57,45 @@ export const store = new Vuex.Store({
     getters: {
         allMonHoc: state => {
             return state.ListMonHoc;
+        },
+        slMonHoc: state => {
+            return state.sl;
+        },
+        monhocmoi: state => {
+            return state.monhocmoi;
         }
     },
     mutations: {
         add_mon_hoc(state, monhoc) {
             state.ListMonHoc.push(monhoc);
+            // this.dem_mon_hoc();
         },
-        delete_mon_hoc(state, indexmonhoc){
-            state.ListMonHoc.splice(indexmonhoc,1);
+        delete_mon_hoc(state, indexmonhoc) {
+            state.ListMonHoc.splice(indexmonhoc, 1);
         },
-        doi_trang_thai(state, indexmonhoc){
+        doi_trang_thai(state, indexmonhoc) {
             state.ListMonHoc[indexmonhoc].trangthai = !state.ListMonHoc[indexmonhoc].trangthai;
+        },
+        dem_mon_hoc(state) {
+            var slp = 0;
+            for (var i = 0; i < state.ListMonHoc.length; i++) {
+                if (!state.ListMonHoc[i].trangthai) {
+                    slp = slp + 1;
+                }
+            }
+            state.sl = slp;
+            // return state.sl;
+        },
+        all_mon_hoc(state) {
+            for (var i = 0; i < state.ListMonHoc.length; i++) {
+                if(state.ListMonHoc[i].trangthai === false){
+                    state.ListMonHoc[i].trangthai = true;
+                }
+            }
+            console.log("all Môn Học");
+        },
+        them_mon_hoc(state, value){
+            state.monhocmoi = value;
         }
     },
     actions: {
@@ -75,8 +103,20 @@ export const store = new Vuex.Store({
             commit("add_mon_hoc", monhoc);
 
         },
-        deleteMonHoc({ commit }, indexmonhoc){
+        deleteMonHoc({ commit }, indexmonhoc) {
             commit("delete_mon_hoc", indexmonhoc);
+        },
+        doiTrangThai({ commit }, indexmonhoc) {
+            commit("doi_trang_thai", indexmonhoc);
+        },
+        demMonHoc({ commit }) {
+            commit("dem_mon_hoc");
+        },
+        CompleteMonHoc({ commit }){
+            commit("all_mon_hoc");
+        },
+        ThemMonHoc({ commit }, value){
+            commit("them_mon_hoc", value);
         }
     },
     modules: {
