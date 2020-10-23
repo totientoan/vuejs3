@@ -2,18 +2,19 @@
     <div class="comp-list-da-hoc">
         
             <comp-mon-hoc
-                v-for="(value,key) in ListMonHoc"
+                v-for="(value,key) in allMonHoc"
                 v-bind:key="key"
                 v-bind:MonHoc="value"
                 v-if="value.trangthai"
-                v-on:xoaMonHoc = "xoaMonHoc"
             />
-    
+                <!-- v-on:xoaMonHoc = "xoaMonHoc" -->
     </div>
 </template>
 
 <script>
 import CompMonHoc from './CompMonHoc.vue';
+
+import { mapGetters } from "vuex";
 export default {
     name: "comp-list-da-hoc",
     data() {
@@ -21,21 +22,24 @@ export default {
 
         }
     },
-    props: {
-        ListMonHoc: {
-            type: Array,
-            default: []
-        }
-    },
+    // props: {
+    //     ListMonHoc: {
+    //         type: Array,
+    //         default: []
+    //     }
+    // },
     components: {
         CompMonHoc
     },
-    methods: {
-        xoaMonHoc(data){
-            console.log('đây là đã học',data.id);
-            this.$emit('AppXoaMonHoc',data);
-        }
+    computed:{
+        ...mapGetters(["allMonHoc"])
     }
+    // methods: {
+    //     xoaMonHoc(data){
+    //         console.log('đây là đã học',data.id);
+    //         this.$emit('AppXoaMonHoc',data);
+    //     }
+    // }
 }
 </script>
 
